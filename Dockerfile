@@ -28,7 +28,6 @@ RUN \
         locales \
         mesa-common-dev \
         openssh-client \
-        pylint3 \
         python3 \
         python3-git \
         python3-jinja2 \

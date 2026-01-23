@@ -81,7 +81,7 @@ RUN \
 USER $USER
 WORKDIR $WORKDIR
 
-RUN pipx install kas
+RUN pip3 install --no-cache-dir kas
 
 # Configure .gitconfig
 RUN \

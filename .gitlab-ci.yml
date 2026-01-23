@@ -31,7 +31,7 @@ build:
 
 
   script:
-    # Variables 
+    # Variables
     - DOCKER_TAG="meta-qcom-ipk-server-setup_20.04"
     - URL="https://github.com/qualcomm-linux"
     - BRANCH="master"

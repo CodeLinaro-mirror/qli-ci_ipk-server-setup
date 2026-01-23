@@ -18,7 +18,7 @@ build:
     - apk add --update curl && apk add --update git unzip zip && rm -rf /var/cache/apk/*
     - dockerd -l fatal &
     # - docker login -u "$ART_DOCKER_USER" -p "$ART_DOCKER_PASS" $ART_DOCKER_REG
-    #  Installing JFrog CLI
+    # Installing JFrog CLI
     - curl -fL https://install-cli.jfrog.io | sh
     - chmod +x /usr/local/bin/jf
     # Configure artifactory instance with JFrog CLI

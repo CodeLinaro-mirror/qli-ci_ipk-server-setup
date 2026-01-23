@@ -49,7 +49,7 @@ RUN \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     # Set python to python3.8.1
-    && update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 \
+    #&& update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 \
     # Generate locales
     && locale-gen en_US.UTF-8 \
     # Update default sh

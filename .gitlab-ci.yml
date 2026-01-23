@@ -21,7 +21,7 @@ build:
     # Installing JFrog CLI
     - curl -fL https://install-cli.jfrog.io | sh
     - chmod +x /usr/local/bin/jf
-    # Configure Artifactory instance with JFrog CLI
+    # Configure artifactory instance with JFrog CLI
     - pwd
     - projFolder=$(pwd)
     # - cd /usr/local/bin/

@@ -61,6 +61,8 @@ RUN \
     wget -qP /usr/local/bin https://storage.googleapis.com/git-repo-downloads/repo \
     && chmod a+x /usr/local/bin/repo
 
+RUN pip3 install --no-cache-dir kas
+
 # Configure non-root user omniscan
 ARG USER=codelinaro
 ARG GROUP=codelinaro
@@ -81,7 +83,6 @@ RUN \
 USER $USER
 WORKDIR $WORKDIR
 
-RUN pip3 install --no-cache-dir kas
 
 # Configure .gitconfig
 RUN \

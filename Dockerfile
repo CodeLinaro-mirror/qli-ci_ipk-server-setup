@@ -18,7 +18,6 @@ RUN \
         debianutils \
         diffstat \
         gawk \
-        kas \
         tree \
         gcc \
         git \
@@ -81,6 +80,8 @@ RUN \
 # Switch to non-root user
 USER $USER
 WORKDIR $WORKDIR
+
+RUN pipx install kas
 
 # Configure .gitconfig
 RUN \

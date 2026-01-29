@@ -53,6 +53,6 @@ build:
     - today=$(date +"%m%d%Y")
     - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/images/. /images
     - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/ipk/. /ipk
-    - docker rm build
     - /usr/local/bin/jf rt ping
     - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "./**" clo-548-opkg-ci-test/qli/${today}/
+    - docker rm build

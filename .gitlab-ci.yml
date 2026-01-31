@@ -54,5 +54,6 @@ build:
     - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/images/. /images
     - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/rpm/. /rpm
     - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/**" clo-548-opkg-ci-test/qli/${today}/
+    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/images/**" clo-548-opkg-ci-test/qli/${today}/images/
+    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/**" clo-548-opkg-ci-test/qli/${today}/rpm/
     - docker rm build

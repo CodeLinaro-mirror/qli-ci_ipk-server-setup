@@ -53,14 +53,14 @@ build:
 
     - |
       echo "Setting up artifacts copy, zip and upload function..."
-	    create_artifact_zipit_and_upload() {
+      create_artifact_zipit_and_upload(){
         local machine_name=$1
-		    mkdir -p /images/${machine_name}
+        mkdir -p /images/${machine_name}
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${MACHINE}/
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${MACHINE}/
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
-	      tar -xzvf /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         tar -xzvf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         rm -f /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
         rm -f /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz

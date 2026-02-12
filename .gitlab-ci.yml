@@ -13,7 +13,6 @@ variables:
 
 build:
   stage: build
-
   before_script:
     - apk add --update curl && apk add --update git unzip zip && rm -rf /var/cache/apk/*
     - dockerd -l fatal &
@@ -29,15 +28,15 @@ build:
     - /usr/local/bin/jf c add artifactory-server --url=$ART_PLAT_URL --user=$ART_PLAT_USER --password=$ART_PLAT_PASS
     - /usr/local/bin/jf rt ping
 
-
   script:
     # Variables
-    - DOCKER_TAG="meta-qcom-ipk-server-setup_22.04"
+    - QCOM_RELEASE=qcom-6.18-QLI.2.0-Ver.1.0
+    - DOCKER_TAG="qcom-6.18-qli.2.0-ver.1.0_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="master"
-    - PROJECT="meta-qcom"
-    - MACHINE="qcs6490-rb3gen2-core-kit"
-    - ARCH="x86"
+    - BRANCH="qcom-6.18-QLI.2.0-Ver.1.0"
+    - PROJECT="meta-qcom-releases"
+    - MACHINE="rb3gen2-core-kit"
+    - ARCH="arm"
     - DISTRO="qcom-distro-prop-image"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild
@@ -48,12 +47,32 @@ build:
     # Docker Build & Run
     - docker build --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
     - docker run --name build ${DOCKER_TAG} -u ${URL} -b ${BRANCH} -p ${PROJECT} -M ${MACHINE} -d ${DISTRO} -i ${IMAGE} -w "${WORK_DIR}/${DOCKER_TAG}" -a ${ARCH}
-    - mkdir -p /images
-    - mkdir -p /rpm
-    - today=$(date +"%m%d%Y")
-    - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/images/. /images
-    - docker cp build:${WORK_DIR}/meta-qcom-ipk-server-setup_22.04/build/tmp/deploy/rpm/. /rpm
-    - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/images/(**)" "clo-548-rpm/qli/${today}/images/{1}"
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "clo-548-rpm/qli/${today}/rpm/{1}"
+
+    # Define a reusable function for artifacts copy & zip it and upload to artifactory
+    # This reduces code duplication and improves maintainability
+
+    - |
+      echo "Setting up artifacts copy, zip and upload function..."
+	    create_artifact_zipit_and_upload() {
+        local machine_name=$1
+		    mkdir -p /images/${machine_name}
+        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${MACHINE}/
+	      docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${MACHINE}/
+	      docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
+        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+	      tar -xzvf /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+	      rm -f /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
+	      rm -f /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
+        zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip /images/${machine_name}
+        /usr/local/bin/jf rt ping
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip 
+    - echo "Processing Copy, zip and upload for different machines"
+    - create_artifact_zipit_and_upload "rb3gen2-core-kit"
+    - create_artifact_zipit_and_upload "iq-8275-evk"
+    - create_artifact_zipit_and_upload "iq-9075-evk"
+    - create_artifact_zipit_and_upload "qcs615-ride"
+	# - create_artifact_zipit_and_upload "iq-x7181-evk"
+	# - create_artifact_zipit_and_upload "qcom-armv8a"
     - docker rm build

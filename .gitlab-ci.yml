@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &
     - sleep 5
   tags:
-    - amd64-runner
+    - arm64-runner
 
 variables:
   KUBERNETES_CPU_REQUEST: 60

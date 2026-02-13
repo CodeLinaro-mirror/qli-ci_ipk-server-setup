@@ -67,7 +67,8 @@ build:
         zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip /images/${machine_name}
         /usr/local/bin/jf rt ping
         /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip 
+        rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip
+      }  
     - echo "Processing Copy, zip and upload for different machines"
     - create_artifact_zipit_and_upload "rb3gen2-core-kit"
     - create_artifact_zipit_and_upload "iq-8275-evk"

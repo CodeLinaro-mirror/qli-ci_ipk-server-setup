@@ -57,22 +57,24 @@ build:
         local machine_name=$1
         mkdir -p /images/${machine_name}
         echo "Debug level 1"
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
+        tar -xzvf build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
+        #docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
         echo "Debug level 2"
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
+        tar -xzvf build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
+        #docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
         echo "Debug level 3"
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
         echo "Debug level 4"
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         echo "Debug level 5"
-        ls /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
-        echo "Debug level 6"
-        ls /images/${machine_name}/
-        rm -f /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
-        rm -f /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
+        #ls /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        #ls /images/${machine_name}/
+        #rm -f /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
+        #rm -f /images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
         zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip /images/${machine_name}
+        echo "Debug level 6"
         /usr/local/bin/jf rt ping
         /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
         rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip

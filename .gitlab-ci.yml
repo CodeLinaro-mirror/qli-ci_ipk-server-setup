@@ -54,14 +54,16 @@ build:
     - |
       echo "Setting up artifacts copy, zip and upload function..."
       create_artifact_zipit_and_upload(){
-        set -euo pipefail
+        #set -euo pipefail
         local machine_name=$1
         mkdir -p /images/${machine_name}
         echo "Debug level 1"
         SYMLINK_PATH="${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"
         # Resolve real file inside container
+        echo "Debug level 1.1"
         REAL_FILE=$(docker exec -e WORK_DIR="$WORK_DIR" -e machine_name="$machine_name" build \
             bash -lc "readlink -f \"$SYMLINK_PATH\"")
+        echo "Debug level 1.2"
         echo "Real File $SYMLINK_PATH"
         DEST_DIR="/images/${machine_name}"
         # Rename output to symlink name

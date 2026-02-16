@@ -54,7 +54,7 @@ build:
     - |
       echo "Setting up artifacts copy, zip and upload function..."
       create_artifact_zipit_and_upload(){
-        set -euo pipefail
+        #set -euo pipefail
         local machine_name=$1
         mkdir -p /images/${machine_name}
         echo "Debug level 1"

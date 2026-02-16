@@ -58,6 +58,8 @@ build:
         local machine_name=$1
         mkdir -p /images/${machine_name}
         echo "Debug level 1"
+        docker exec build bash -lc 'test -f "${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz" && echo "FOUND File" || echo "MISSING File"'
+        docker exec build bash -lc 'test -d "${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}" && echo "Dir OK" || echo "MISSING DIR"'
         #tar -xzvf build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
         docker cp "build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz" "/images/${machine_name}/"
         echo "Debug level 2"
@@ -84,9 +86,9 @@ build:
       }  
     - echo "Processing Copy, zip and upload for different machines"
     - create_artifact_zipit_and_upload "rb3gen2-core-kit"
-    - create_artifact_zipit_and_upload "iq-8275-evk"
-    - create_artifact_zipit_and_upload "iq-9075-evk"
-    - create_artifact_zipit_and_upload "qcs615-ride"
+    # - create_artifact_zipit_and_upload "iq-8275-evk"
+    # - create_artifact_zipit_and_upload "iq-9075-evk"
+    # - create_artifact_zipit_and_upload "qcs615-ride"
     # - create_artifact_zipit_and_upload "iq-x7181-evk"
     # - create_artifact_zipit_and_upload "qcom-armv8a"
     - docker rm build

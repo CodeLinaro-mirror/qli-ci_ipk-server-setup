@@ -103,13 +103,21 @@ build:
         echo "Debug yyyyy:1"
         ls -la /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
         real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
+        echo "Real Path is ${real_path}"
+        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/${real_path}
+        rm -f /images/${machine_name}/${real_path}
+        #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
         echo "Debug level 5"
         #ls /images/${machine_name}/
         echo "Debug yyyyy:2"
         ls -la /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
         real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
+        echo "Real Path is ${real_path}"
+        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/${real_path}
+        rm -f /images/${machine_name}/${real_path}
+        #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
         #ls /images/${machine_name}/
         #rm -f "/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #rm -f "/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"

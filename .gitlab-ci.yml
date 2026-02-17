@@ -102,12 +102,14 @@ build:
         ls -la /images/backup/${machine_name}/
         echo "Debug yyyyy:1"
         ls -la /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
-        tar -xzvf /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        tar -xzvf ${real_path} -C /images/${machine_name}/
         echo "Debug level 5"
         #ls /images/${machine_name}/
         echo "Debug yyyyy:2"
         ls -la /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
-        tar -xzvf /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
+        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        tar -xzvf ${real_path} -C /images/${machine_name}/
         #ls /images/${machine_name}/
         #rm -f "/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #rm -f "/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"

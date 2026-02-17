@@ -98,11 +98,14 @@ build:
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
         echo "Debug xxxxx"
         ls -la /images/${machine_name}/
+        echo "Debug yyyyy"
         ls -la /images/backup/${machine_name}/
+        echo "Debug yyyyy:1"
         ls -la /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz
         tar -xzvf /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         echo "Debug level 5"
         #ls /images/${machine_name}/
+        echo "Debug yyyyy:2"
         ls -la /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz
         tar -xzvf /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         #ls /images/${machine_name}/

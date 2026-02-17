@@ -99,10 +99,10 @@ build:
         echo "Debug xxxxx"
         ls /images/${machine_name}/
         ls /images/backup/${machine_name}/
-        tar -xzvf "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz" -C /images/${machine_name}/
+        tar -xzvf /images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         echo "Debug level 5"
         #ls /images/${machine_name}/
-        tar -xzvf "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz" -C /images/${machine_name}/
+        tar -xzvf /images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz -C /images/${machine_name}/
         #ls /images/${machine_name}/
         #rm -f "/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #rm -f "/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"

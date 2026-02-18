@@ -18,6 +18,7 @@ RUN \
         debianutils \
         diffstat \
         gawk \
+        tar \
         tree \
         gcc \
         git \

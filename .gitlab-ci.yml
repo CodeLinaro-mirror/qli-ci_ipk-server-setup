@@ -14,7 +14,7 @@ variables:
 build:
   stage: build
   before_script:
-    - apk add --update curl && apk add --update git unzip zip && rm -rf /var/cache/apk/*
+    - apk add --update curl && apk add --update git tar unzip zip && rm -rf /var/cache/apk/*
     - dockerd -l fatal &
     # - docker login -u "$ART_DOCKER_USER" -p "$ART_DOCKER_PASS" $ART_DOCKER_REG
     # Installing JFrog CLI

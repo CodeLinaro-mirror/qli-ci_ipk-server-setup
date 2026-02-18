@@ -105,6 +105,9 @@ build:
         real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
         echo "Real Path is ${real_path}"
         cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        chmod 777 /images/${machine_name}/${real_path}
+        echo "additional debug 1"
+        ls -lrt /images/${machine_name}/${real_path}
         tar -xzvf /images/${machine_name}/${real_path}
         rm -f /images/${machine_name}/${real_path}
         #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
@@ -115,6 +118,9 @@ build:
         real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
         echo "Real Path is ${real_path}"
         cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        chmod 777 /images/${machine_name}/${real_path}
+        echo "additional debug 2"
+        ls -lrt /images/${machine_name}/${real_path}
         tar -xzvf /images/${machine_name}/${real_path}
         rm -f /images/${machine_name}/${real_path}
         #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/

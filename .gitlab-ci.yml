@@ -108,7 +108,8 @@ build:
         chmod 777 /images/${machine_name}/${real_path}
         echo "additional debug 1"
         ls -lrt /images/${machine_name}/${real_path}
-        tar -xzvf /images/${machine_name}/${real_path}
+        tar --version
+        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
         rm -f /images/${machine_name}/${real_path}
         #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
         echo "Debug level 5"
@@ -121,7 +122,7 @@ build:
         chmod 777 /images/${machine_name}/${real_path}
         echo "additional debug 2"
         ls -lrt /images/${machine_name}/${real_path}
-        tar -xzvf /images/${machine_name}/${real_path}
+        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
         rm -f /images/${machine_name}/${real_path}
         #tar -xzvf /images/backup/${machine_name}/${real_path} -C /images/${machine_name}/
         #ls /images/${machine_name}/

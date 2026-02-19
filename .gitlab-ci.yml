@@ -56,9 +56,12 @@ build:
       create_artifact_zipit_and_upload(){
         #set -euo pipefail
         local machine_name=$1
-        mkdir -p /rpm
-        mkdir -p /images/${machine_name}
-        mkdir -p /images/backup/${machine_name}
+        #****************
+        #mkdir -p /rpm
+        #mkdir -p /images/${machine_name}
+        #mkdir -p /images/backup/${machine_name}
+        #******************
+        mkdir -p /images/${machine_name}/sdk
         #echo "Debug level 1"
         #SYMLINK_PATH="${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"
         # Resolve real file inside container
@@ -88,7 +91,12 @@ build:
         #tar -xzvf build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
         #docker cp build:$(docker exec build sh -c "readlink -f ${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz") "/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #docker cp "build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs-*.qcomflash.tar.gz" "/images/${machine_name}/"
-        docker cp -L build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
+        
+        #************
+        #docker cp -L build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
+        #************
+        
+        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
         #echo "Debug level 2"
         #tar -xzvf build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz /images/${machine_name}/
         #docker cp build:$(docker exec build sh -c "readlink -f ${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz") "/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz"
@@ -97,15 +105,19 @@ build:
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
         #echo "Debug level 4"
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
-        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
-        rm -f /images/${machine_name}/${real_path}
-        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
-        rm -f /images/${machine_name}/${real_path}
-        rm -rf /images/backup/${machine_name}
+        
+        #*****************
+        #real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        #cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        #rm -f /images/${machine_name}/${real_path}
+        #real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        #cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        #rm -f /images/${machine_name}/${real_path}
+        #rm -rf /images/backup/${machine_name}
+        #******************
+
         #echo "Debug xxxxx"
         #ls -la /images/${machine_name}/
         #echo "Debug yyyyy"
@@ -139,22 +151,35 @@ build:
         #rm -f "/images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #rm -f "/images/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz"
         #rm -rf /images/backup/${machine_name}
-        zip -r qcom-6.18-QLI.2.0-Ver.1.0-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
-        zip -r qcom-6.18-QLI.2.0-Ver.1.0-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+
+        #*******************
+        #zip -r qcom-6.18-QLI.2.0-Ver.1.0-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+        #zip -r qcom-6.18-QLI.2.0-Ver.1.0-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+        #********************
+        
+        zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
         #zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip /images/${machine_name}
         #echo "Debug level 6"
         /usr/local/bin/jf rt ping
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f qcom-6.18-QLI.2.0-Ver.1.0-*.zip
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip
       }  
     - echo "Processing Copy, zip and upload for different machines"
-    - create_artifact_zipit_and_upload "rb3gen2-core-kit"
-    - create_artifact_zipit_and_upload "iq-8275-evk"
-    - create_artifact_zipit_and_upload "iq-9075-evk"
+
+    #*********************
+    #- create_artifact_zipit_and_upload "rb3gen2-core-kit"
+    #- create_artifact_zipit_and_upload "iq-8275-evk"
+    #- create_artifact_zipit_and_upload "iq-9075-evk"
+    #**********************
+    
     # - create_artifact_zipit_and_upload "qcs615-ride"
     # - create_artifact_zipit_and_upload "iq-x7181-evk"
     - create_artifact_zipit_and_upload "qcom-armv8a"
-    - docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/rpm/. /rpm
-    - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "clo-548-rpm/qli/${QCOM_RELEASE}/rpm/{1}"
+
+    #********************
+    #- docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/rpm/. /rpm
+    #- /usr/local/bin/jf rt ping
+    #- /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "clo-548-rpm/qli/${QCOM_RELEASE}/rpm/{1}"
+    #*********************
     - docker rm build

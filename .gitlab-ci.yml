@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &
     - sleep 5
   tags:
-    - arm64-runner
+    - amd64-runner
 
 variables:
   KUBERNETES_CPU_REQUEST: 60
@@ -36,7 +36,7 @@ build:
     - BRANCH="qcom-6.18-QLI.2.0-Ver.1.0"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
-    - ARCH="arm"
+    - ARCH="x86"
     - DISTRO="qcom-distro-prop-image"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild
@@ -157,13 +157,13 @@ build:
         #zip -r qcom-6.18-QLI.2.0-Ver.1.0-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
         #********************
         
-        zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-        zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r x86-qcom-6.18-QLI.2.0-Ver.1.0-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r x86-qcom-6.18-QLI.2.0-Ver.1.0-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
         #zip -r arm-qcom-6.18-QLI.2.0-Ver.1.0-image.zip /images/${machine_name}
         #echo "Debug level 6"
         /usr/local/bin/jf rt ping
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f arm-qcom-6.18-QLI.2.0-Ver.1.0-*.zip
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "x86-qcom-6.18-QLI.2.0-Ver.1.0-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f x86-qcom-6.18-QLI.2.0-Ver.1.0-*.zip
       }  
     - echo "Processing Copy, zip and upload for different machines"
 

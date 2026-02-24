@@ -30,10 +30,10 @@ build:
 
   script:
     # Variables
-    - QCOM_RELEASE=qli-2.0-rc1
+    - QCOM_RELEASE=qcom-6.18-QLI.2.0-Ver.1.0
     - DOCKER_TAG="qli-2.0-rc1_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="qli-2.0-rc1"
+    - BRANCH="qcom-6.18-QLI.2.0-Ver.1.0"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     - ARCH="x86"
@@ -140,18 +140,19 @@ build:
     - echo "Processing Copy, zip and upload for different machines"
 
     #*********************
-    - create_artifact_zipit_and_upload "rb3gen2-core-kit"
-    - create_artifact_zipit_and_upload "iq-8275-evk"
-    - create_artifact_zipit_and_upload "iq-9075-evk"
-    - create_artifact_zipit_and_upload "iq-615-evk"
+    #- create_artifact_zipit_and_upload "rb3gen2-core-kit"
+    #- create_artifact_zipit_and_upload "iq-8275-evk"
+    #- create_artifact_zipit_and_upload "iq-9075-evk"
+    #- create_artifact_zipit_and_upload "iq-615-evk"
     #**********************
     
     # - create_artifact_zipit_and_upload "qcs615-ride"
     # - create_artifact_zipit_and_upload "iq-x7181-evk"
-    - create_artifact_and_sdk_zipit_and_upload "qcom-armv8a"
+    #- create_artifact_and_sdk_zipit_and_upload "qcom-armv8a"
 
     #********************
-    - docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/build/tmp/deploy/rpm/. /rpm
+    - mkdir -p /rpm
+    - docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
     - /usr/local/bin/jf rt ping
     - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
     #*********************

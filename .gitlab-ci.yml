@@ -68,8 +68,8 @@ build:
         docker cp -L build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
         #************
         
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+        docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/NOTICE /images/${machine_name}/
+        docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
         
         #*****************
         real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
@@ -108,8 +108,8 @@ build:
         #************
         
         docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NOTICE /images/${machine_name}/
-        docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+        docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/NOTICE /images/${machine_name}/
+        docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
         
         #*****************
         #real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")

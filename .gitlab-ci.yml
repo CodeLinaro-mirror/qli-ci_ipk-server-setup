@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &
     - sleep 5
   tags:
-    - amd64-runner
+    - arm64-runner
 
 variables:
   KUBERNETES_CPU_REQUEST: 60
@@ -36,7 +36,7 @@ build:
     - BRANCH="main"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
-    - ARCH="x86"
+    - ARCH="arm"
     - DISTRO="qcom-distro-prop-image"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild
@@ -104,7 +104,7 @@ build:
         mkdir -p /images/${machine_name}/sdk
                
         #************
-        docker cp -L build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
+        #docker cp -L build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
         #************
         
         docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
@@ -112,38 +112,38 @@ build:
         docker cp build:${WORK_DIR}/qcom-6.18-qli.2.0-ver.1.0_22.04/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
         
         #*****************
-        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
-        rm -f /images/${machine_name}/${real_path}
-        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
-        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
-        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
-        rm -f /images/${machine_name}/${real_path}
-        rm -rf /images/backup/${machine_name}
+        #real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        #cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        #rm -f /images/${machine_name}/${real_path}
+        #real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        #cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        #tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        #rm -f /images/${machine_name}/${real_path}
+        #rm -rf /images/backup/${machine_name}
         #******************
 
         #*******************
-        zip -r qcom-qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
-        zip -r qcom-qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+        #zip -r qcom-qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+        #zip -r qcom-qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
         #********************
         
-        zip -r x86-qcom-qli-2.0-rc1-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-        zip -r x86-qcom-qli-2.0-rc1-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r arm-qcom-qli-2.0-rc1-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r arm-qcom-qli-2.0-rc1-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
         
-        /usr/local/bin/jf rt ping
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f qcom-qli-2.0-rc1-*.zip
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "x86-qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f x86-qcom-qli-2.0-rc1-*.zip
+        #/usr/local/bin/jf rt ping
+        #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        #rm -f qcom-qli-2.0-rc1-*.zip
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f arm-qcom-qli-2.0-rc1-*.zip
       }    
     - echo "Processing Copy, zip and upload for different machines"
 
     #*********************
-    - create_artifact_zipit_and_upload "rb3gen2-core-kit"
-    - create_artifact_zipit_and_upload "iq-8275-evk"
-    - create_artifact_zipit_and_upload "iq-9075-evk"
-    - create_artifact_zipit_and_upload "iq-615-evk"
+    #- create_artifact_zipit_and_upload "rb3gen2-core-kit"
+    #- create_artifact_zipit_and_upload "iq-8275-evk"
+    #- create_artifact_zipit_and_upload "iq-9075-evk"
+    #- create_artifact_zipit_and_upload "iq-615-evk"
     #**********************
     
     # - create_artifact_zipit_and_upload "qcs615-ride"
@@ -152,8 +152,8 @@ build:
 
     #********************
     #- mkdir -p /rpm
-    - docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
-    - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
+    #- docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
+    #- /usr/local/bin/jf rt ping
+    #- /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
     #*********************
     - docker rm build

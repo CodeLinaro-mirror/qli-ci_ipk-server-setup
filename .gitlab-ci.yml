@@ -33,7 +33,7 @@ build:
     - QCOM_RELEASE=qli-2.0-rc1
     - DOCKER_TAG="qli-2.0-rc1_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="main"
+    - BRANCH="qli-2.0-rc1"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     - ARCH="arm"

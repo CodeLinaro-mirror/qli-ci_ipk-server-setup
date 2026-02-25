@@ -84,12 +84,12 @@ build:
         #******************
 
         #*******************
-        zip -r qcom-qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
-        zip -r qcom-qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+        zip -r qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+        zip -r qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
         #********************
         /usr/local/bin/jf rt ping
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f qcom-qli-2.0-rc1-*.zip
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f qli-2.0-rc1-*.zip
       }
     - |
       echo "Setting up artifacts and sdk copy, zip and upload function..."
@@ -124,18 +124,18 @@ build:
         #******************
 
         #*******************
-        #zip -r qcom-qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
-        #zip -r qcom-qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+        #zip -r qli-2.0-rc1-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+        #zip -r qli-2.0-rc1-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
         #********************
         
-        zip -r arm-qcom-qli-2.0-rc1-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-        zip -r arm-qcom-qli-2.0-rc1-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r arm-qli-2.0-rc1-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+        zip -r arm-qli-2.0-rc1-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
         
         #/usr/local/bin/jf rt ping
-        #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        #rm -f qcom-qli-2.0-rc1-*.zip
-        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qcom-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-        rm -f arm-qcom-qli-2.0-rc1-*.zip
+        #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        #rm -f qli-2.0-rc1-*.zip
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "arm-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f arm-qli-2.0-rc1-*.zip
       }    
     - echo "Processing Copy, zip and upload for different machines"
 

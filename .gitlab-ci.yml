@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &
     - sleep 5
   tags:
-    - amd64-runner
+    - arm64-runner
 
 variables:
   KUBERNETES_CPU_REQUEST: 60
@@ -36,7 +36,7 @@ build:
     - BRANCH="qli-2.0-rc1"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
-    - ARCH="x86"
+    - ARCH="arm"
     - DISTRO="qcom-distro-prop-image"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild
@@ -102,6 +102,7 @@ build:
         mkdir -p /images/backup/${machine_name}
         #******************
         mkdir -p /images/${machine_name}/sdk
+        #mkdir -p /downloads
                
         #************
         docker cp -L build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
@@ -140,20 +141,24 @@ build:
     - echo "Processing Copy, zip and upload for different machines"
 
     #*********************
-    - create_artifact_zipit_and_upload "rb3gen2-core-kit"
-    - create_artifact_zipit_and_upload "iq-8275-evk"
-    - create_artifact_zipit_and_upload "iq-9075-evk"
-    - create_artifact_zipit_and_upload "iq-615-evk"
+    #- create_artifact_zipit_and_upload "rb3gen2-core-kit"
+    #- create_artifact_zipit_and_upload "iq-8275-evk"
+    #- create_artifact_zipit_and_upload "iq-9075-evk"
+    #- create_artifact_zipit_and_upload "iq-615-evk"
     #**********************
     
     # - create_artifact_zipit_and_upload "qcs615-ride"
     # - create_artifact_zipit_and_upload "iq-x7181-evk"
-    - create_artifact_and_sdk_zipit_and_upload "qcom-armv8a"
+    #- create_artifact_and_sdk_zipit_and_upload "qcom-armv8a"
 
     #********************
     #- mkdir -p /rpm
-    - docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
+    #- docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
     - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
+    #- /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
+    - mkdir -p /downloads
+    - docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/downloads/. /downloads
+    #- /usr/local/bin/jf rt ping
+    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/{1}"
     #*********************
     - docker rm build

@@ -37,7 +37,7 @@ build:
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     - ARCH="arm"
-    - DISTRO="qcom-distro-prop-image"
+    - DISTRO="qcom-distro-catchall"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild
     - UID=2366345

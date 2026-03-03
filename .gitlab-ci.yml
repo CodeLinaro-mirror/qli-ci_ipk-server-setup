@@ -156,7 +156,7 @@ build:
     #- docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
     - /usr/local/bin/jf rt ping
     - |
-      if [ "$ARCH" == "arm" ];
+      if [ "$ARCH" == "arm" ]; then
         echo "Arch is $ARCH-qli-2.0-rc1-esdk.zip"
       else
         echo "Arch is $ARCH-qli-2.0-rc1-esdk.zip"

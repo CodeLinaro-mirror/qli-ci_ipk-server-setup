@@ -155,10 +155,16 @@ build:
     #- mkdir -p /rpm
     #- docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/tmp/deploy/rpm/. /rpm
     - /usr/local/bin/jf rt ping
+    - |
+      if [ "$ARCH" == "arm" ];
+        echo "Arch is $ARCH-qli-2.0-rc1-esdk.zip"
+      else
+        echo "Arch is $ARCH-qli-2.0-rc1-esdk.zip"
+      fi    
     #- /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
-    - mkdir -p /downloads
-    - docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/downloads/. /downloads
+    #- mkdir -p /downloads
+    #- docker cp build:${WORK_DIR}/qli-2.0-rc1_22.04/build/downloads/. /downloads
     #- /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/{1}"
+    #- /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/{1}"
     #*********************
     - docker rm build

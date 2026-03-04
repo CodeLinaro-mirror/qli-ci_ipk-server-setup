@@ -16,7 +16,7 @@ variables:
   # Define variables for easier maintenance and updates
   QCOM_RELEASE: qli-2.0-rc1
   ARCH: x86
-  DOWNLOAD_SERVER: 1
+  DOWNLOAD_SERVER: 0
 
 build:
   stage: build

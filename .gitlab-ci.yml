@@ -43,7 +43,7 @@ build:
     - BRANCH="${QCOM_RELEASE}"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
-    - ARCH="arm"
+    #- ARCH="arm"
     - DISTRO="qcom-distro-catchall"
     - IMAGE="qcom-multimedia-image"
     - USER=lnxbuild         # Match the USER in Dockerfile
@@ -145,7 +145,7 @@ build:
         /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "x86-qli-2.0-rc1-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
         rm -f x86-qli-2.0-rc1-*.zip
       }    
-    - echo "Processing Copy, zip and upload for different machines"
+    - echo "Processing Copy, zip and upload for different machines:$DOCKER_TAG:$BRANCH"
 
     #*********************
     #- create_artifact_zipit_and_upload "rb3gen2-core-kit"

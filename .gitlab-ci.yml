@@ -53,7 +53,7 @@ build:
 
     # Docker Build & Run
     - docker build --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
-    - docker run --name build ${DOCKER_TAG} -u ${URL} -b ${BRANCH} -p ${PROJECT} -M ${MACHINE} -d ${DISTRO} -i ${IMAGE} -w "${WORK_DIR}/${DOCKER_TAG}" -a ${ARCH}
+    - docker run --name build ${DOCKER_TAG} -u ${URL} -b ${BRANCH} -p ${PROJECT} -M ${MACHINE} -D ${DOWNLOAD_SERVER} -d ${DISTRO} -i ${IMAGE} -w "${WORK_DIR}/${DOCKER_TAG}" -a ${ARCH}
 
     # Define a reusable function for artifacts copy & zip it and upload to artifactory
     # This reduces code duplication and improves maintainability

@@ -40,7 +40,7 @@ build:
     #- QCOM_RELEASE=qli-2.0-rc1
     - DOCKER_TAG="${QCOM_RELEASE}_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="main"
+    - BRANCH="qli-2.0-rc2"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"
@@ -229,9 +229,9 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ]; then
           create_artifacts_and_upload "qcom-armv8a"
         else
-          #create_artifacts_and_upload "rb3gen2-core-kit"
-          #create_artifacts_and_upload "iq-8275-evk"
-          #create_artifacts_and_upload "iq-9075-evk"
+          create_artifacts_and_upload "rb3gen2-core-kit"
+          create_artifacts_and_upload "iq-8275-evk"
+          create_artifacts_and_upload "iq-9075-evk"
           create_artifacts_and_upload "iq-615-evk"
           create_artifacts_and_upload "qcom-armv8a"
         fi

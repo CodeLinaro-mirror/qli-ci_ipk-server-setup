@@ -216,9 +216,9 @@ build:
           if [ "$machine_name" == "qcom-armv8a" ]; then
             /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
             rm -f x86-${QCOM_RELEASE}-*.zip
+            docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
           fi
-          docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
         fi
       }   
     - echo "Processing Copy, zip and upload for different machines:$DOCKER_TAG:$BRANCH"
@@ -229,9 +229,9 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ]; then
           create_artifacts_and_upload "qcom-armv8a"
         else
-          create_artifacts_and_upload "rb3gen2-core-kit"
-          create_artifacts_and_upload "iq-8275-evk"
-          create_artifacts_and_upload "iq-9075-evk"
+          #create_artifacts_and_upload "rb3gen2-core-kit"
+          #create_artifacts_and_upload "iq-8275-evk"
+          #create_artifacts_and_upload "iq-9075-evk"
           create_artifacts_and_upload "iq-615-evk"
           create_artifacts_and_upload "qcom-armv8a"
         fi

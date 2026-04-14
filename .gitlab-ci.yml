@@ -220,7 +220,7 @@ build:
             #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
             #rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
             docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
-            /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm/${QCOM_RELEASE}/rpm/{1}"
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
           fi
         fi
       }   

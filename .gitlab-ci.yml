@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &      # Start Docker daemon in background
     - sleep 5                 # Wait for Docker daemon to initialize
   tags:
-    - arm64-runner            # Specify the runner tag
+    - amd64-runner            # Specify the runner tag
 
 # Global variables for the pipeline
 variables:
@@ -14,7 +14,7 @@ variables:
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
 
   # Define variables for easier maintenance and updates
-  QCOM_RELEASE: qli-2.0-rc2
+  QCOM_RELEASE: qli-2.0-rc3
   ARCH: x86
   DOWNLOAD_SERVER: 0
 
@@ -40,7 +40,7 @@ build:
     #- QCOM_RELEASE=qli-2.0-rc1
     - DOCKER_TAG="${QCOM_RELEASE}_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="qli-2.0-rc2"
+    - BRANCH="qli-2.0-rc3"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"

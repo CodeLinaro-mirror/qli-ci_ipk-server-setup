@@ -163,7 +163,7 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ] && [ "$machine_name" == "qcom-armv8a" ] && [ "$ARCH" == "x86" ]; then
           mkdir -p /downloads
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/downloads/. /downloads
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/main/{1}"
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/wrynose/{1}"
         elif [ "$DOWNLOAD_SERVER" == 0 ] && [ "$machine_name" == "qcom-armv8a" ] && [ "$ARCH" == "arm" ]; then
           mkdir -p /images/${machine_name}/sdk
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/

@@ -14,7 +14,7 @@ variables:
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
 
   # Define variables for easier maintenance and updates
-  QCOM_RELEASE: qli-2.0-rc3
+  QCOM_RELEASE: qli-2.0-rc3+20260513
   ARCH: x86
   DOWNLOAD_SERVER: 0
 
@@ -40,7 +40,7 @@ build:
     #- QCOM_RELEASE=qli-2.0-rc1
     - DOCKER_TAG="${QCOM_RELEASE}_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="wrynose"
+    - BRANCH="qli-2.0-rc3+20260513"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"
@@ -178,15 +178,15 @@ build:
           rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
         else
           #mkdir -p /downloads
-          ###mkdir -p /rpm
+          mkdir -p /rpm
               
           #************
           docker cp -L build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
           #************
           if [ "$machine_name" == "qcom-armv8a" ]; then
             echo "HI"
-            ###mkdir -p /images/${machine_name}/sdk
-            ###docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
+            mkdir -p /images/${machine_name}/sdk
+            docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
           fi
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
@@ -209,18 +209,18 @@ build:
           #********************
           if [ "$machine_name" == "qcom-armv8a" ]; then
             echo "HI"
-            ###zip -r ${ARCH}-${QCOM_RELEASE}-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-            ###zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+            zip -r ${ARCH}-${QCOM_RELEASE}-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+            zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
           fi
           /usr/local/bin/jf rt ping
           /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-catchall/${machine_name}/
           rm -f ${QCOM_RELEASE}-*.zip
           if [ "$machine_name" == "qcom-armv8a" ]; then
             echo "HI"
-            ###/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-            ###rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
-            ###docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
-            ###/usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+            rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
+            docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
           fi
         fi
       }   
@@ -232,10 +232,11 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ]; then
           create_artifacts_and_upload "qcom-armv8a"
         else
-          create_artifacts_and_upload "rb3gen2-core-kit"
-          create_artifacts_and_upload "iq-8275-evk"
-          create_artifacts_and_upload "iq-9075-evk"
-          create_artifacts_and_upload "iq-615-evk"
+          #create_artifacts_and_upload "rb3gen2-core-kit"
+          #create_artifacts_and_upload "iq-8275-evk"
+          #create_artifacts_and_upload "iq-9075-evk"
+          #create_artifacts_and_upload "iq-615-evk"
+          create_artifacts_and_upload "iq-x7181-evk"
           create_artifacts_and_upload "qcom-armv8a"
         fi
       else

@@ -38,7 +38,8 @@ build:
   script:
     # Define variables for the build
     #- QCOM_RELEASE=qli-2.0-rc1
-    - DOCKER_TAG="${QCOM_RELEASE}_22.04"
+    ###- DOCKER_TAG="${QCOM_RELEASE}_22.04"
+    - DOCKER_TAG="qli-2.0-rc3_22.04"
     - URL="https://github.com/qualcomm-linux"
     - BRANCH="qli-2.0-rc3+20260513"
     - PROJECT="meta-qcom-releases"

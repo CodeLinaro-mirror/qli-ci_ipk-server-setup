@@ -14,7 +14,7 @@ variables:
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
 
   # Define variables for easier maintenance and updates
-  QCOM_RELEASE: qli-2.0-rc3
+  QCOM_RELEASE: qli-2.0-rc3+20260513
   ARCH: x86
   DOWNLOAD_SERVER: 0
 
@@ -39,9 +39,9 @@ build:
     # Define variables for the build
     #- QCOM_RELEASE=qli-2.0-rc1
     ###- DOCKER_TAG="${QCOM_RELEASE}_22.04"
-    - DOCKER_TAG="qli-2.0-rc3_22.04"
+    - DOCKER_TAG="qli-2.0-rc32_22.04"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="qli-2.0-rc3"
+    - BRANCH="qli-2.0-rc3+20260513"
     - PROJECT="meta-qcom-releases"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"
@@ -233,11 +233,11 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ]; then
           create_artifacts_and_upload "qcom-armv8a"
         else
-          create_artifacts_and_upload "rb3gen2-core-kit"
-          create_artifacts_and_upload "iq-8275-evk"
-          create_artifacts_and_upload "iq-9075-evk"
-          create_artifacts_and_upload "iq-615-evk"
-          #create_artifacts_and_upload "iq-x7181-evk"
+          #create_artifacts_and_upload "rb3gen2-core-kit"
+          #create_artifacts_and_upload "iq-8275-evk"
+          #create_artifacts_and_upload "iq-9075-evk"
+          #create_artifacts_and_upload "iq-615-evk"
+          create_artifacts_and_upload "iq-x7181-evk"
           create_artifacts_and_upload "qcom-armv8a"
         fi
       else

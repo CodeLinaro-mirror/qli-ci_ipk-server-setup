@@ -39,7 +39,7 @@ build:
     # Define variables for the build
     #- QCOM_RELEASE=qli-2.0-rc1
     ###- DOCKER_TAG="${QCOM_RELEASE}_22.04"
-    - DOCKER_TAG="qli-2.0"
+    - DOCKER_TAG="qli-2.0-r1"
     - URL="https://github.com/qualcomm-linux"
     - BRANCH="qli-2.0"
     - PROJECT="meta-qcom"
@@ -175,7 +175,7 @@ build:
           zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
 
           /usr/local/bin/jf rt ping
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/qcom-distro-sota/${machine_name}/
           rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
         else
           #mkdir -p /downloads
@@ -214,15 +214,15 @@ build:
             zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
           fi
           /usr/local/bin/jf rt ping
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/qcom-distro-sota/${machine_name}/
           rm -f ${QCOM_RELEASE}-*.zip
           if [ "$machine_name" == "qcom-armv8a" ]; then
             echo "HI"
-            /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/qcom-distro-sota/${machine_name}/
             rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
             #docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
-            docker cp build:${WORK_DIR}/${DOCKER_TAG}/output/. /rpm
-            /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
+            #docker cp build:${WORK_DIR}/${DOCKER_TAG}/output/. /rpm
+            #/usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
           fi
         fi
       }   

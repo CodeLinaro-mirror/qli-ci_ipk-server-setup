@@ -14,7 +14,7 @@ variables:
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
 
   # Define variables for easier maintenance and updates
-  QCOM_RELEASE: qli-2.0-rc3+20260513
+  QCOM_RELEASE: qli-2.0
   ARCH: x86
   DOWNLOAD_SERVER: 0
 
@@ -39,9 +39,9 @@ build:
     # Define variables for the build
     #- QCOM_RELEASE=qli-2.0-rc1
     ###- DOCKER_TAG="${QCOM_RELEASE}_22.04"
-    - DOCKER_TAG="qli-2.0-rc32_22.04"
+    - DOCKER_TAG="qli-2.0"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="qli-2.0-rc3+20260513"
+    - BRANCH="qli-2.0"
     - PROJECT="meta-qcom"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"

@@ -42,7 +42,7 @@ build:
     - DOCKER_TAG="qli-2.0-rc32_22.04"
     - URL="https://github.com/qualcomm-linux"
     - BRANCH="qli-2.0-rc3+20260513"
-    - PROJECT="meta-qcom-releases"
+    - PROJECT="meta-qcom"
     - MACHINE="rb3gen2-core-kit"
     #- ARCH="arm"
     - DISTRO="qcom-distro-catchall"
@@ -175,7 +175,7 @@ build:
           zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
 
           /usr/local/bin/jf rt ping
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/qcom-distro-sota/${machine_name}/
           rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
         else
           #mkdir -p /downloads
@@ -214,16 +214,14 @@ build:
             zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
           fi
           /usr/local/bin/jf rt ping
-          # *****temp to test pruned rpm
-          #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
-          docker cp build:${WORK_DIR}/${DOCKER_TAG}/output/. /rpm
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}_pruned/rpm/{1}"
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/qcom-distro-sota/${machine_name}/
           rm -f ${QCOM_RELEASE}-*.zip
           if [ "$machine_name" == "qcom-armv8a" ]; then
             echo "HI"
-            /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+            /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/qcom-distro-sota/${machine_name}/
             rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
-            docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
+            #docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/rpm/. /rpm
+            docker cp build:${WORK_DIR}/${DOCKER_TAG}/output/. /rpm
             /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-yocto-rpm-signed/${QCOM_RELEASE}/rpm/{1}"
           fi
         fi
@@ -237,11 +235,12 @@ build:
           create_artifacts_and_upload "qcom-armv8a"
         else
           create_artifacts_and_upload "rb3gen2-core-kit"
-          #create_artifacts_and_upload "iq-8275-evk"
-          #create_artifacts_and_upload "iq-9075-evk"
-          #create_artifacts_and_upload "iq-615-evk"
-          #create_artifacts_and_upload "iq-x7181-evk"
-          #create_artifacts_and_upload "qcom-armv8a"
+          create_artifacts_and_upload "iq-8275-evk"
+          create_artifacts_and_upload "iq-9075-evk"
+          create_artifacts_and_upload "iq-615-evk"
+          create_artifacts_and_upload "iq-x7181-evk"
+          create_artifacts_and_upload "iq-x5121-evk"
+          create_artifacts_and_upload "qcom-armv8a"
         fi
       else
         create_artifacts_and_upload "qcom-armv8a"

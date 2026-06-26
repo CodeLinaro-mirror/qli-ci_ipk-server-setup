@@ -16,7 +16,7 @@ variables:
   # Define variables for easier maintenance and updates
   QCOM_RELEASE: qli-2.0
   ARCH: x86
-  DOWNLOAD_SERVER: 1
+  DOWNLOAD_SERVER: 0
 
 build:
   stage: build
@@ -234,10 +234,10 @@ build:
         if [ "$DOWNLOAD_SERVER" == 1 ]; then
           create_artifacts_and_upload "qcom-armv8a"
         else
-          create_artifacts_and_upload "rb3gen2-core-kit"
-          create_artifacts_and_upload "iq-8275-evk"
-          create_artifacts_and_upload "iq-9075-evk"
-          create_artifacts_and_upload "iq-615-evk"
+          #create_artifacts_and_upload "rb3gen2-core-kit"
+          #create_artifacts_and_upload "iq-8275-evk"
+          #create_artifacts_and_upload "iq-9075-evk"
+          #create_artifacts_and_upload "iq-615-evk"
           create_artifacts_and_upload "iq-x7181-evk"
           create_artifacts_and_upload "iq-x5121-evk"
           create_artifacts_and_upload "qcom-armv8a"

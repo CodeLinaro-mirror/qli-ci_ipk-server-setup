@@ -46,6 +46,7 @@ RUN \
         python3-yaml \
         xz-utils \
         libgtest-dev \
+        gfortran \
         zstd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

@@ -93,4 +93,4 @@ RUN \
 RUN \
     git clone https://git.codelinaro.org/clo/le/qcom-notice.git scripts
 
-ENTRYPOINT ["/bin/bash", "./scripts/sync_build_kas.sh"]
+ENTRYPOINT ["/bin/bash", "./scripts/sync_build_kas_robotics.sh"]

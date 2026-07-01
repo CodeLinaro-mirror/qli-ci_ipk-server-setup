@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &      # Start Docker daemon in background
     - sleep 5                 # Wait for Docker daemon to initialize
   tags:
-    - arm64-runner            # Specify the runner tag
+    - amd64-runner            # Specify the runner tag
 
 # Global variables for the pipeline
 variables:
@@ -15,7 +15,7 @@ variables:
 
   # Define variables for easier maintenance and updates
   QCOM_RELEASE: qli-2.0
-  ARCH: arm
+  ARCH: x86
   DOWNLOAD_SERVER: 0
 
 build:
@@ -215,7 +215,7 @@ build:
           create_artifacts_and_upload "qcom-armv8a"
         else
           #create_artifacts_and_upload "rb3gen2-core-kit"
-          #create_robotics_artifacts_and_upload "iq-8275-evk"
+          create_robotics_artifacts_and_upload "iq-8275-evk"
           create_robotics_artifacts_and_upload "iq-9075-evk"
           #create_artifacts_and_upload "iq-615-evk"
           #create_artifacts_and_upload "iq-x7181-evk"

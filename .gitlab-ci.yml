@@ -75,9 +75,9 @@ build:
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/downloads/. /downloads
           /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/2.x/{1}"
         elif [ "$DOWNLOAD_SERVER" == 0 ] && [ "$ARCH" == "arm" ]; then
-          mkdir -p /images/${machine_name}/sdk
+          #mkdir -p /images/${machine_name}/sdk
           mkdir -p /target/${machine_name}/qirpsdk_artifacts
-          docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
+          #docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/qirpsdk_artifacts/. /images/${machine_name}/qirpsdk_artifacts/
@@ -223,7 +223,7 @@ build:
           #create_artifacts_and_upload "qcom-armv8a"
         fi
       else
-        #create_robotics_artifacts_and_upload "iq-8275-evk"
-        create_robotics_artifacts_and_upload "iq-9075-evk"
+        create_robotics_artifacts_and_upload "iq-8275-evk"
+        #create_robotics_artifacts_and_upload "iq-9075-evk"
       fi        
     - docker rm build

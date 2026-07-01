@@ -4,7 +4,7 @@ default:
     - dockerd -l fatal &      # Start Docker daemon in background
     - sleep 5                 # Wait for Docker daemon to initialize
   tags:
-    - amd64-runner            # Specify the runner tag
+    - arm64-runner            # Specify the runner tag
 
 # Global variables for the pipeline
 variables:
@@ -15,7 +15,7 @@ variables:
 
   # Define variables for easier maintenance and updates
   QCOM_RELEASE: qli-2.0
-  ARCH: x86
+  ARCH: arm
   DOWNLOAD_SERVER: 0
 
 build:
@@ -68,6 +68,7 @@ build:
         #****************
         mkdir -p /images/${machine_name}
         mkdir -p /images/backup/${machine_name}
+        #mkdir -p /target/${machine_name}/qirpsdk_artifacts
         #******************
         if [ "$DOWNLOAD_SERVER" == 1 ] && [ "$machine_name" == "qcom-armv8a" ] && [ "$ARCH" == "x86" ]; then
           mkdir -p /downloads
@@ -75,16 +76,20 @@ build:
           /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/2.x/{1}"
         elif [ "$DOWNLOAD_SERVER" == 0 ] && [ "$ARCH" == "arm" ]; then
           mkdir -p /images/${machine_name}/sdk
-          #mkdir -p /target/${machine_name}/qirpsdk_artifacts
+          mkdir -p /target/${machine_name}/qirpsdk_artifacts
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+          docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/qirpsdk_artifacts/. /images/${machine_name}/qirpsdk_artifacts/
 
-          zip -r ${ARCH}-${QCOM_RELEASE}-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-          zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+          zip -r ${ARCH}-${QCOM_RELEASE}-robotics-sdk-artifacts.zip /images/${machine_name}/qirpsdk_artifacts /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/${machine_name}/
+
+          #zip -r ${ARCH}-${QCOM_RELEASE}-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+          #zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
 
           /usr/local/bin/jf rt ping
-          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/${machine_name}/
+          #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/${machine_name}/
           rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
         else
                         
@@ -98,8 +103,8 @@ build:
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/qirpsdk_artifacts/. /images/${machine_name}/qirpsdk_artifacts/
         
-          zip -r ${QCOM_RELEASE}-robotics-sdk-artifacts.zip /images/${machine_name}/qirpsdk_artifacts /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
-          #/usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/${machine_name}/
+          zip -r ${ARCH}-${QCOM_RELEASE}-robotics-sdk-artifacts.zip /images/${machine_name}/qirpsdk_artifacts /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/${machine_name}/
           #*****************
           real_path=$(readlink "/images/backup/${machine_name}/qcom-robotics-image-${machine_name}.rootfs.qcomflash.tar.gz")
           cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/

@@ -39,7 +39,7 @@ build:
     # Define variables for the build
     #- QCOM_RELEASE=qli-2.0-rc1
     ###- DOCKER_TAG="${QCOM_RELEASE}_22.04"
-    - DOCKER_TAG="qli-2.0-r21"
+    - DOCKER_TAG="qli-2.0-r22"
     - URL="https://github.com/qualcomm-linux"
     - BRANCH="qli-2.0"
     - PROJECT="meta-qcom-robotics-sdk"
@@ -223,7 +223,7 @@ build:
           #create_artifacts_and_upload "qcom-armv8a"
         fi
       else
-        create_robotics_artifacts_and_upload "iq-8275-evk"
-        #create_robotics_artifacts_and_upload "iq-9075-evk"
+        #create_robotics_artifacts_and_upload "iq-8275-evk"
+        create_robotics_artifacts_and_upload "iq-9075-evk"
       fi        
     - docker rm build

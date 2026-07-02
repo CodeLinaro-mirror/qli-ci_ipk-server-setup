@@ -53,4 +53,4 @@ build:
     - rm -rf qli-2.0-robotics-sdk-artifacts.zip
     - zip -r x86-qli-2.0-robotics-sdk-artifacts.zip images
     - /usr/local/bin/jf rt ping
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive x86-qli-2.0-robotics-sdk-artifacts.zip qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/iq-8275-evk
+    - /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive x86-qli-2.0-robotics-sdk-artifacts.zip qli-ci/flashable-binaries/meta-qcom-robotics/qcom-robotics-distro/iq-8275-evk/

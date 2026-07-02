@@ -11,7 +11,7 @@ variables:
   # Kubernetes resource requests
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 1T
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 2T
 
   # Define variables for easier maintenance and updates
   QCOM_RELEASE: qli-2.0

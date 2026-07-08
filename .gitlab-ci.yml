@@ -38,9 +38,9 @@ build:
 
   script:
     # Define variables for the build
-    - DOCKER_TAG="qli-2.0"
+    - DOCKER_TAG="${QCOM_RELEASE}"
     - URL="https://github.com/qualcomm-linux"
-    - BRANCH="qli-2.0"
+    - BRANCH="${QCOM_RELEASE}"
     - PROJECT="meta-qcom"
     - MACHINE="rb3gen2-core-kit"
     - IMAGE="qcom-multimedia-image"

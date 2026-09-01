@@ -46,7 +46,6 @@ RUN \
         python3-yaml \
         xz-utils \
         libgtest-dev \
-        gfortran \
         zstd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -94,4 +93,4 @@ RUN \
 RUN \
     git clone https://git.codelinaro.org/clo/le/qcom-notice.git scripts
 
-ENTRYPOINT ["/bin/bash", "./scripts/sync_build_kas_robotics.sh"]
+ENTRYPOINT ["/bin/bash", "./scripts/sync_build_kas.sh"]

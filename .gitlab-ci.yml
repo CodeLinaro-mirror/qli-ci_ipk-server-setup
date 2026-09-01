@@ -17,7 +17,7 @@ variables:
   QCOM_RELEASE: qli-2.0
   ARCH: x86
   DOWNLOAD_SERVER: 0
-  DISTRO: qcom-distro-sota
+  DISTRO: qcom-distro
 
 build:
   stage: build
@@ -57,6 +57,99 @@ build:
     # This reduces code duplication and improves maintainability
 
     - |
+      echo "Setting up artifacts copy, zip and upload function..."
+      create_artifact_zipit_and_upload(){
+        #set -euo pipefail
+        local machine_name=$1
+
+        #****************
+        mkdir -p /rpm
+        mkdir -p /images/${machine_name}
+        mkdir -p /images/backup/${machine_name}
+        #******************
+
+
+        #************
+        docker cp -L build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
+        #************
+
+        docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
+        docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+
+        #*****************
+        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        rm -f /images/${machine_name}/${real_path}
+        real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
+        cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+        tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+        rm -f /images/${machine_name}/${real_path}
+        rm -rf /images/backup/${machine_name}
+        #******************
+
+        #*******************
+        zip -r ${QCOM_RELEASE}-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+        zip -r ${QCOM_RELEASE}-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+        #********************
+        /usr/local/bin/jf rt ping
+        /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/meta-qcom/${machine_name}/
+        rm -f ${QCOM_RELEASE}-*.zip
+      }
+    - |
+      echo "Setting up artifacts and sdk copy, zip and upload function..."
+      create_artifact_and_sdk_zipit_and_upload(){
+        #set -euo pipefail
+        local machine_name=$1
+        #****************
+        mkdir -p /rpm
+        mkdir -p /images/${machine_name}
+        mkdir -p /images/backup/${machine_name}
+        #******************
+        mkdir -p /images/${machine_name}/sdk
+        if [ "$DOWNLOAD_SERVER" == 1 ]; then
+          mkdir -p /downloads
+          docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/downloads/. /downloads
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/downloads/(**)" "qli-ci/downloads/{1}"
+        else
+          #mkdir -p /downloads
+
+          #************
+          docker cp -L build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
+          #************
+
+          docker cp build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/sdk/. /images/${machine_name}/sdk/
+          docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
+          docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
+
+          #*****************
+          real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
+          cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+          tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+          rm -f /images/${machine_name}/${real_path}
+          real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}.rootfs.qcomflash.tar.gz")
+          cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
+          tar -xzvf /images/${machine_name}/${real_path} -C /images/${machine_name}
+          rm -f /images/${machine_name}/${real_path}
+          rm -rf /images/backup/${machine_name}
+          #******************
+
+          #*******************
+          zip -r ${QCOM_RELEASE}-qcom-multimedia-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-image-${machine_name}
+          zip -r ${QCOM_RELEASE}-qcom-multimedia-proprietary-image.zip /images/${machine_name}/NOTICE /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/qcom-multimedia-proprietary-image-${machine_name}
+          #********************
+
+          zip -r ${ARCH}-${QCOM_RELEASE}-esdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+          zip -r ${ARCH}-${QCOM_RELEASE}-standardsdk.zip /images/${machine_name} /images/${machine_name}/sdk -i /images/${machine_name}/sdk/*-toolchain-*.sh -x /images/${machine_name}/sdk/*-toolchain-ext-*.sh -i /images/${machine_name}/NOTICE -i /images/${machine_name}/NO.LOGIN.BINARY.LICENSE.QTI.pdf
+
+          /usr/local/bin/jf rt ping
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/${DISTRO}/${machine_name}/
+          rm -f ${QCOM_RELEASE}-*.zip
+          /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "${ARCH}-${QCOM_RELEASE}-*.zip" qli-ci/flashable-binaries/${DISTRO}/${machine_name}/
+          rm -f x86-${QCOM_RELEASE}-*.zip
+        fi
+      }
+    - |
       echo "Setting up artifacts and sdk copy, zip and upload function..."
       create_artifacts_and_upload(){
         #set -euo pipefail
@@ -83,7 +176,7 @@ build:
           rm -f ${ARCH}-${QCOM_RELEASE}-*.zip
         else
           mkdir -p /rpm
-              
+
           #************
           docker cp -L build:${WORK_DIR}/${DOCKER_TAG}/build/tmp/deploy/images/${machine_name}/. /images/backup/${machine_name}/
           #************
@@ -93,7 +186,7 @@ build:
           fi
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NOTICE /images/${machine_name}/
           docker cp build:${WORK_DIR}/${DOCKER_TAG}/NO.LOGIN.BINARY.LICENSE.QTI.pdf /images/${machine_name}/
-        
+
           #*****************
           real_path=$(readlink "/images/backup/${machine_name}/qcom-multimedia-image-${machine_name}.rootfs.qcomflash.tar.gz")
           cp /images/backup/${machine_name}/${real_path} /images/${machine_name}/
@@ -125,7 +218,7 @@ build:
             fi
           fi
         fi
-      }   
+      }
     - echo "Processing Copy, zip and upload for different machines:$DOCKER_TAG:$BRANCH"
 
     #*********************

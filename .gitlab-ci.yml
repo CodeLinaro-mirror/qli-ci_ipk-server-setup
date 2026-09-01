@@ -17,7 +17,7 @@ variables:
   QCOM_RELEASE: qli-2.0-qimsdk-2.0.0
   ARCH: x86
   DOWNLOAD_SERVER: 0
-  DISTRO: qcom-distro
+  DISTRO: qcom-distro-sota
 
 build:
   stage: build

@@ -34,11 +34,10 @@ WORKDIR $WORKDIR
 RUN git config --global user.email "${USER}@codelinaro.com" \
     && git config --global user.name "${USER}"
 
-RUN curl -fL https://install-cli.jfrog.io | sh \
-    && chmod +x jf \
-    && sudo mv jf /usr/local/bin/jf
+# Copy notice generation script
+RUN \
+    git clone https://git.codelinaro.org/clo/le/qcom-notice.git scripts
 
-COPY build.sh ${WORKDIR}/build.sh
-RUN sudo chmod +x ${WORKDIR}/build.sh
+RUN ls scripts/
 
-ENTRYPOINT ["/bin/bash", "./build.sh"]
+ENTRYPOINT ["/bin/bash", "./scripts/sync_build_kas_robotics_rpm.sh"]

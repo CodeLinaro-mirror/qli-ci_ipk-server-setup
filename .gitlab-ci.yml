@@ -32,7 +32,7 @@ build:
 
   script:
     # Variables
-    - RELEASE_TAG="qli-2.0-qirsdk-2.7.0"
+    - RELEASE_TAG="qli-2.0"
     - DOCKER_TAG="robotics-builder"
     - USER=lnxbuild
     - UID=2366345

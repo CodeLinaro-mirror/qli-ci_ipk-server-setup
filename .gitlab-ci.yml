@@ -16,6 +16,10 @@ variables:
 
 build:
   stage: build
+  parallel:
+    matrix:
+      - TARGET: iq-9075-evk
+      - TARGET: iq-8275-evk
   before_script:
     - apk add --update curl && apk add --update git tar unzip zip && rm -rf /var/cache/apk/*
     - dockerd -l fatal &
@@ -32,7 +36,7 @@ build:
 
   script:
     # Variables
-    - RELEASE_TAG="qli-2.0"
+    - RELEASE_TAG="qli-2.1-alpha"
     - DOCKER_TAG="robotics-builder"
     - USER=lnxbuild
     - UID=2366345
@@ -41,7 +45,7 @@ build:
 
     # Docker Build & Run
     - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
-    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t iq-9075-evk -t iq-8275-evk -w ${WORK_DIR}/${DOCKER_TAG}
+    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG}
     - mkdir -p /rpm
     - docker cp build:${WORK_DIR}/${DOCKER_TAG}/common/output/. /rpm/
     - ls -la /rpm/

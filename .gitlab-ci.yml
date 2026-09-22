@@ -5,10 +5,10 @@ default:
     - sleep 5
 
 variables:
-  TAG: wrynose
-  KUBERNETES_CPU_REQUEST: 60
+  TAG: qli-2.1
+  KUBERNETES_CPU_REQUEST: 64
   KUBERNETES_MEMORY_REQUEST: 128G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 300G
 
 build-x86:
   stage: build
@@ -31,7 +31,11 @@ build-x86:
       - MACHINE: shikra-evk
         DISTRO: qcom-distro qcom-distro-sota
       - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro qcom-distro-sota
+        DISTRO: qcom-distro
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
+      - MACHINE: qcom-armv8a
+        DISTRO: qcom-distro-sota
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
   script:
     - ARCH="x86"
     - docker build -t clo-release-worker .
@@ -45,8 +49,10 @@ build-arm64:
     matrix:
       - MACHINE: qcom-armv8a
         DISTRO: qcom-distro
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
       - MACHINE: qcom-armv8a
         DISTRO: qcom-distro-sota
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
   script:
     - ARCH="arm"
     - docker build -t clo-release-worker .

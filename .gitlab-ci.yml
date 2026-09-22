@@ -4,14 +4,14 @@ default:
     - dockerd -l fatal &      # Start Docker daemon in background
     - sleep 5                 # Wait for Docker daemon to initialize
   tags:
-    - arm64-runner            # Specify the runner tag
+    - amd64-runner            # Specify the runner tag
 
 # Global variables for the pipeline
 variables:
   # Kubernetes resource requests
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 2T
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
 
 
 build:

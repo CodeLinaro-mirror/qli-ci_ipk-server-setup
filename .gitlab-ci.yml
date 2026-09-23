@@ -47,9 +47,9 @@ build:
     - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
     - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG}
     - mkdir -p /rpm
-    - docker cp build:${WORK_DIR}/${DOCKER_TAG}/common/output/. /rpm/
+    - docker cp build:${WORK_DIR}/${DOCKER_TAG}/output/. /rpm/
     - ls -la /rpm/
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "/rpm/*" qli-robotics-yocto-rpm-signed/${RELEASE_TAG}/rpm/
+    - /usr/local/bin/jf rt u --detailed-summary --flat=false --include-dirs --recursive "/rpm/(**)" "qli-robotics-yocto-rpm-signed/${RELEASE_TAG}/rpm/{1}"
     - rm -rf /rpm
 
 

@@ -5,8 +5,8 @@ default:
     - sleep 5
 
 variables:
-  TAG: qli-2.1
-  KUBERNETES_CPU_REQUEST: 64
+  TAG: qli-2.1-rc1
+  KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 128G
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 300G
 
@@ -27,8 +27,6 @@ build-x86:
       - MACHINE: iq-x7181-evk
         DISTRO: qcom-distro qcom-distro-sota
       - MACHINE: iq-x5121-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: shikra-evk
         DISTRO: qcom-distro qcom-distro-sota
       - MACHINE: qcom-armv8a
         DISTRO: qcom-distro

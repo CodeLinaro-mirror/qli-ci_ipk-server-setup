@@ -6,7 +6,7 @@ default:
 
 # Global variables for the pipeline
 variables:
-  RELEASE_TAG: "qli-2.1-alpha"
+  RELEASE_TAG: "qli-2.1"
   # Kubernetes resource requests
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G

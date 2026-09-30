@@ -8,9 +8,11 @@ RUN apt-get update && apt-get install -y \
     chrpath socat cpio python3 python3-pip python3-pexpect \
     xz-utils debianutils iputils-ping python3-git python3-jinja2 \
     libegl1-mesa libsdl1.2-dev xterm python3-subunit mesa-common-dev \
-    zstd liblz4-tool file locales curl sudo \
+    zstd liblz4-tool file locales curl sudo zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8
+
+RUN curl -fL https://install-cli.jfrog.io | sh && chmod +x /usr/local/bin/jf
 
 RUN pip3 install kas
 
@@ -36,7 +38,7 @@ RUN git config --global user.email "${USER}@codelinaro.com" \
 
 # Copy notice generation script
 RUN \
-    git clone https://git.codelinaro.org/clo/le/qcom-notice.git scripts
+    git clone -b robotics https://git.codelinaro.org/clo/le/qcom-notice.git scripts
 
 RUN ls scripts/
 

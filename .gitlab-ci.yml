@@ -1,54 +1,51 @@
 default:
-  image: docker:25.0.3-dind   # Using Docker-in-Docker image
+  image: docker:25.0.3-dind
   before_script:
-    - dockerd -l fatal &      # Start Docker daemon in background
-    - sleep 5                 # Wait for Docker daemon to initialize
-  tags:
-    - arm64-runner            # Specify the runner tag
+    - dockerd -l fatal &
+    - sleep 5
 
 # Global variables for the pipeline
 variables:
+  RELEASE_TAG: "qli-2.1-alpha"
   # Kubernetes resource requests
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 2T
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 700G
 
-
-build:
+build-arm64:
   stage: build
-  before_script:
-    - apk add --update curl && apk add --update git tar unzip zip && rm -rf /var/cache/apk/*
-    - dockerd -l fatal &
-    # - docker login -u "$ART_DOCKER_USER" -p "$ART_DOCKER_PASS" $ART_DOCKER_REG
-    # Installing JFrog CLI
-    - curl -fL https://install-cli.jfrog.io | sh
-    - chmod +x /usr/local/bin/jf
-    # Configure artifactory instance with JFrog CLI
-    - pwd
-    - projFolder=$(pwd)
-    - /usr/local/bin/jf --version
-    - /usr/local/bin/jf c add artifactory-server --url=$ART_PLAT_URL --user=$ART_PLAT_USER --password=$ART_PLAT_PASS
-    - /usr/local/bin/jf rt ping
-
+  tags:
+    - arm64-runner
+  parallel:
+    matrix:
+      - TARGET: iq-9075-evk
+      - TARGET: iq-8275-evk
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 600G
   script:
-    # Variables
-    - RELEASE_TAG="qli-2.0"
     - DOCKER_TAG="robotics-builder"
     - USER=lnxbuild
     - UID=2366345
     - GID=2366345
     - WORK_DIR="/home/${USER}/app"
-
-    # Docker Build & Run
     - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
-    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t iq-9075-evk -t iq-8275-evk -w ${WORK_DIR}/${DOCKER_TAG}
-    - mkdir -p /rpm
-    - docker cp build:${WORK_DIR}/${DOCKER_TAG}/common/output/. /rpm/
-    - ls -la /rpm/
-    - /usr/local/bin/jf rt u --detailed-summary --flat=false --recursive "/rpm/*" qli-robotics-yocto-rpm-signed/${RELEASE_TAG}/rpm/
-    - rm -rf /rpm
+    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG} -u $ART_PLAT_USER -a $ART_PLAT_PASS -r $ART_PLAT_URL --arch arm --upload-images --upload-sdk --upload-rpm
+    - docker rm build
 
-
-    # Define a reusable function for artifacts copy & zip it and upload to artifactory
-    # This reduces code duplication and improves maintainability
+build-x86:
+  stage: build
+  tags:
+    - amd64-runner
+  parallel:
+    matrix:
+      - TARGET: iq-9075-evk
+      - TARGET: iq-8275-evk
+        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 600G
+  script:
+    - DOCKER_TAG="robotics-builder"
+    - USER=lnxbuild
+    - UID=2366345
+    - GID=2366345
+    - WORK_DIR="/home/${USER}/app"
+    - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
+    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG} -u $ART_PLAT_USER -a $ART_PLAT_PASS -r $ART_PLAT_URL --arch x86 --upload-sdk
     - docker rm build

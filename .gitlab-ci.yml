@@ -34,8 +34,7 @@ build-x86:
   script:
     - ARCH="x86"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} \
-                                    --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload
+    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload
 
 build-arm64:
   stage: build
@@ -49,5 +48,4 @@ build-arm64:
   script:
     - ARCH="arm"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} \
-                                    --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload
+    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload

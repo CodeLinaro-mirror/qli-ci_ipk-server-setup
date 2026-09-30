@@ -10,26 +10,7 @@ variables:
   # Kubernetes resource requests
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 700G
-
-build-arm64:
-  stage: build
-  tags:
-    - arm64-runner
-  parallel:
-    matrix:
-      - TARGET: iq-9075-evk
-      - TARGET: iq-8275-evk
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 600G
-  script:
-    - DOCKER_TAG="robotics-builder"
-    - USER=lnxbuild
-    - UID=2366345
-    - GID=2366345
-    - WORK_DIR="/home/${USER}/app"
-    - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
-    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG} -u $ART_PLAT_USER -a $ART_PLAT_PASS -r $ART_PLAT_URL --arch arm --upload-images --upload-sdk --upload-rpm
-    - docker rm build
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 600G
 
 build-x86:
   stage: build
@@ -39,13 +20,20 @@ build-x86:
     matrix:
       - TARGET: iq-9075-evk
       - TARGET: iq-8275-evk
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 600G
   script:
-    - DOCKER_TAG="robotics-builder"
-    - USER=lnxbuild
-    - UID=2366345
-    - GID=2366345
-    - WORK_DIR="/home/${USER}/app"
-    - docker build --network=host --build-arg USER=${USER} --build-arg UID=${UID} --build-arg GID=${GID} --no-cache -t ${DOCKER_TAG} .
-    - docker run --name build --network=host ${DOCKER_TAG} -g ${RELEASE_TAG} -t ${TARGET} -w ${WORK_DIR}/${DOCKER_TAG} -u $ART_PLAT_USER -a $ART_PLAT_PASS -r $ART_PLAT_URL --arch x86 --upload-sdk
-    - docker rm build
+    - ARCH="x86"
+    - docker build -t clo-release-worker .
+    - docker run clo-release-worker --release-tag ${RELEASE_TAG} --target ${TARGET} --arch ${ARCH} --jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-images --upload-sdk --upload-rpm
+
+build-arm64:
+  stage: build
+  tags:
+    - arm64-runner
+  parallel:
+    matrix:
+      - TARGET: iq-9075-evk
+      - TARGET: iq-8275-evk
+  script:
+    - ARCH="arm"
+    - docker build -t clo-release-worker .
+    - docker run clo-release-worker --release-tag ${RELEASE_TAG} --target ${TARGET} --arch ${ARCH} -jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-sdk

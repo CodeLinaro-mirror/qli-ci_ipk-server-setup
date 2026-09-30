@@ -5,7 +5,7 @@ default:
     - sleep 5
 
 variables:
-  TAG: qli-2.1-rc1
+  TAG: qli-2.1
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 128G
   KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 300G
@@ -29,15 +29,13 @@ build-x86:
       - MACHINE: iq-x5121-evk
         DISTRO: qcom-distro qcom-distro-sota
       - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
-      - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro-sota
+        DISTRO: qcom-distro qcom-distro-sota
         KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
   script:
     - ARCH="x86"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH}
+    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} \
+                                    --art-url=$ART_PLAT_URL --art-user=$ART_PLAT_USER --art-pass=$ART_PLAT_PASS --upload
 
 build-arm64:
   stage: build
@@ -46,12 +44,10 @@ build-arm64:
   parallel:
     matrix:
       - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
-      - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro-sota
+        DISTRO: qcom-distro qcom-distro-sota
         KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
   script:
     - ARCH="arm"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH}
+    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} \
+                                    --art-url=$ART_PLAT_URL --art-user=$ART_PLAT_USER --art-pass=$ART_PLAT_PASS --upload

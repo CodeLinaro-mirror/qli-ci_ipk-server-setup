@@ -23,4 +23,4 @@ build-x86:
   script:
     - ARCH="x86"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --release-tag ${RELEASE_TAG} --target ${TARGET} --arch ${ARCH} --jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-images --upload-rpm
+    - docker run clo-release-worker --release-tag ${RELEASE_TAG} --target ${TARGET} --arch ${ARCH} --jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-rpm

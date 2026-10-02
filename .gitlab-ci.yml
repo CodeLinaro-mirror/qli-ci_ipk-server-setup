@@ -16,36 +16,9 @@ build-x86:
     - amd64-runner
   parallel:
     matrix:
-      - MACHINE: rb3gen2-core-kit
+      - MACHINE: shikra-evk
         DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: iq-9075-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: iq-8275-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: iq-615-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: iq-x7181-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: iq-x5121-evk
-        DISTRO: qcom-distro qcom-distro-sota
-      - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro qcom-distro-sota
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
   script:
     - ARCH="x86"
-    - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload
-
-build-arm64:
-  stage: build
-  tags:
-    - arm64-runner
-  parallel:
-    matrix:
-      - MACHINE: qcom-armv8a
-        DISTRO: qcom-distro qcom-distro-sota
-        KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 500G
-  script:
-    - ARCH="arm"
     - docker build -t clo-release-worker .
     - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload

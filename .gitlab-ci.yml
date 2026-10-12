@@ -8,7 +8,7 @@ variables:
   TAG: qli-2.1.1
   KUBERNETES_CPU_REQUEST: 60
   KUBERNETES_MEMORY_REQUEST: 256G
-  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 400G
+  KUBERNETES_EPHEMERAL_STORAGE_REQUEST: 700G
 
 build-x86:
   stage: build
@@ -35,19 +35,6 @@ build-x86-sdk:
     - ARCH="x86"
     - docker build -t clo-release-worker .
     - docker run clo-release-worker --tag ${TAG} --target ${TARGET} --arch ${ARCH} --jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-sdk
-
-build-arm64:
-  stage: build
-  tags:
-    - arm64-runner
-  parallel:
-    matrix:
-      - TARGET: iq-9075-evk
-      - TARGET: iq-8275-evk
-  script:
-    - ARCH="arm"
-    - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --target ${TARGET} --arch ${ARCH} --jf-user $ART_PLAT_USER --jf-pass $ART_PLAT_PASS --jf-url $ART_PLAT_URL --upload-images --upload-rpm
 
 build-arm64-sdk:
   stage: build

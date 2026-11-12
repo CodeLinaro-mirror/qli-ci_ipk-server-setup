@@ -5,7 +5,7 @@ default:
     - sleep 5
 
 variables:
-  TAG: wrynose
+  TAG: qli-2.1.1-arduino-rc1
   ORG: qualcomm-linux
   REPO: meta-qcom-arduino
   KUBERNETES_CPU_REQUEST: 60
@@ -23,4 +23,4 @@ build-x86:
   script:
     - ARCH="x86"
     - docker build -t clo-release-worker .
-    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --org ${ORG} --repo ${REPO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS"
+    - docker run clo-release-worker --tag ${TAG} --machine ${MACHINE} --distro ${DISTRO} --org ${ORG} --repo ${REPO} --arch ${ARCH} --art-url "$ART_PLAT_URL" --art-user "$ART_PLAT_USER" --art-pass "$ART_PLAT_PASS" --upload
